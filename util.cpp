@@ -162,109 +162,109 @@ earnings* Module::util::tokenizeEarnings(string& pData)
 
     string temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->year = -1;
-    }
-    else
+    try
     {
         lEarn->year = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->year = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->male_total = -1;
-    }
-    else
+    try
     {
         lEarn->male_total = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->male_total = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->male_with_earnings = -1;
-    }
-    else
+    try
     {
         lEarn->male_with_earnings = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->male_with_earnings = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->male_earnings = -1;
-    }
-    else
+    try
     {
         lEarn->male_earnings = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->male_earnings = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->male_earnings_moe = -1;
-    }
-    else
+    try
     {
         lEarn->male_earnings_moe = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->male_earnings_moe = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->female_total = -1;
-    }
-    else
+    try
     {
         lEarn->female_total = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->female_total = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->female_with_earnings = -1;
-    }
-    else
+    try
     {
         lEarn->female_with_earnings = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->female_with_earnings = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->female_earnings = -1;
-    }
-    else
+    try
     {
         lEarn->female_earnings = stoi(temp);
     }
+    catch(...)
+    {
+        lEarn->female_earnings = -1;
+    }
     lCurrArray = lCurrArray->next;
 
     temp = lCurrArray->str;
     temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
-    if (temp == "N")
-    {
-        lEarn->female_earnings_moe = -1;
-    }
-    else
+    try
     {
         lEarn->female_earnings_moe = stoi(temp);
+    }
+    catch(...)
+    {
+        lEarn->female_earnings_moe = -1;
     }
     lCurrArray = lCurrArray->next;
 
@@ -309,10 +309,13 @@ int Module::util::compareEarnings(const earnings& earnings1, const earnings& ear
 
 void Module::util::printRatio(const earnings& pEarnings)
 {
+    if (pEarnings.female_earnings < 0 || pEarnings.male_earnings < 0)
+    {
+        throw 1;
+    }
     cout << '\t' << pEarnings.year << ": ";
 
     float lRatio = ((float)pEarnings.female_earnings / (float)pEarnings.male_earnings) * 100.0;
     cout << fixed << setprecision(1) << (lRatio - 0.05);
-    // TODO - print ratio 
     cout << "%\n";
 }

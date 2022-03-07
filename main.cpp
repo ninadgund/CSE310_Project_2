@@ -77,7 +77,6 @@ int main(int argc, char** argv)
 
     string occFileYear(argv[1]);
 
-    /*
     string earnFileName = "Earnings-1960-2019.csv";
     ifstream earnFile(earnFileName);
     if (!earnFile.is_open())
@@ -106,7 +105,6 @@ int main(int argc, char** argv)
     }
     earnFile.close();
     lRatio.heapSort();
-    */
 
     // Read number of queries 'N'
     string in_line;
@@ -163,7 +161,7 @@ int main(int argc, char** argv)
                     {
                         throw 1;
                     }
-//                    lRatio.printRatios(stoi(startYear), stoi(endYear));
+                    lRatio.printRatios(stoi(startYear), stoi(endYear));
                 }
                 catch (...)
                 {
