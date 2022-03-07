@@ -1,0 +1,9 @@
+4
+find max female 2
+find max female 3
+find max female 4
+find max female 5
+find max female 6
+find ratio 2018 2019
+find occupation 53-6051
+range occupation "Da" "De"

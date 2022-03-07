@@ -1,0 +1,152 @@
+Query: find ratio 1960 1969
+
+The female-to-male earnings ratio for 1960-1969:
+	1960: 60.6%
+	1961: 59.2%
+	1962: 59.2%
+	1963: 58.9%
+	1964: 59.1%
+	1965: 59.9%
+	1966: 57.5%
+	1967: 57.7%
+	1968: 58.1%
+	1969: 60.4%
+
+Query: find max total 10
+
+Top 10 occupations in 1999 for total workers:
+	Secretaries and administrative assistants: 2,409,830
+	First-line supervisors/managers of retail sales workers: 2,167,180
+	Elementary and middle school teachers: 2,143,750
+	Driver/sales workers and truck drivers: 2,130,980
+	Managers, all other: 1,607,220
+	Retail salespersons: 1,536,280
+	Registered nurses: 1,384,630
+	First-line supervisors/managers of office and administrative support workers: 1,335,860
+	Accountants and auditors: 1,327,040
+	Customer service representatives: 1,248,770
+
+Query: find max men 10
+
+Top 10 occupations in 1999 for male workers:
+	Driver/sales workers and truck drivers: 2,041,390
+	First-line supervisors/managers of retail sales workers: 1,345,510
+	Managers, all other: 1,086,050
+	Retail salespersons: 933,840
+	First-line supervisors/managers of production and operating workers: 883,320
+	Sales representatives, wholesale and manufacturing: 861,120
+	Chief executives: 797,790
+	Carpenters: 791,770
+	Laborers and freight, stock, and material movers, hand: 791,050
+	Janitors and building cleaners: 767,090
+
+Query: find max women 10
+
+Top 10 occupations in 1999 for female workers:
+	Secretaries and administrative assistants: 2,330,670
+	Elementary and middle school teachers: 1,651,840
+	Registered nurses: 1,254,900
+	Bookkeeping, accounting, and auditing clerks: 964,160
+	First-line supervisors/managers of office and administrative support workers: 882,160
+	Customer service representatives: 865,190
+	First-line supervisors/managers of retail sales workers: 821,670
+	Nursing, psychiatric, and home health aides: 730,750
+	Accountants and auditors: 715,960
+	Office clerks, general: 625,950
+
+Query: find ratio 1970 1979
+
+The female-to-male earnings ratio for 1970-1979:
+	1970: 59.3%
+	1971: 59.5%
+	1972: 57.8%
+	1973: 56.6%
+	1974: 58.7%
+	1975: 58.8%
+	1976: 60.1%
+	1977: 58.9%
+	1978: 59.4%
+	1979: 59.6%
+
+Query: find max men 1
+
+Top 1 occupations in 1999 for male workers:
+	Driver/sales workers and truck drivers: 2,041,390
+
+Query: find ratio 1980 1989
+
+The female-to-male earnings ratio for 1980-1989:
+	1980: 60.1%
+	1981: 59.2%
+	1982: 61.7%
+	1983: 63.5%
+	1984: 63.6%
+	1985: 64.5%
+	1986: 64.2%
+	1987: 65.1%
+	1988: 66.0%
+	1989: 68.6%
+
+Query: find max women 1
+
+Top 1 occupations in 1999 for female workers:
+	Secretaries and administrative assistants: 2,330,670
+
+Query: find ratio 1990 1999
+
+The female-to-male earnings ratio for 1990-1999:
+	1990: 71.6%
+	1991: 69.8%
+	1992: 70.7%
+	1993: 71.5%
+	1994: 71.9%
+	1995: 71.4%
+	1996: 73.7%
+	1997: 74.1%
+	1998: 73.1%
+	1999: 72.3%
+
+Query: find ratio 1960 1999
+
+The female-to-male earnings ratio for 1960-1999:
+	1960: 60.6%
+	1961: 59.2%
+	1962: 59.2%
+	1963: 58.9%
+	1964: 59.1%
+	1965: 59.9%
+	1966: 57.5%
+	1967: 57.7%
+	1968: 58.1%
+	1969: 60.4%
+	1970: 59.3%
+	1971: 59.5%
+	1972: 57.8%
+	1973: 56.6%
+	1974: 58.7%
+	1975: 58.8%
+	1976: 60.1%
+	1977: 58.9%
+	1978: 59.4%
+	1979: 59.6%
+	1980: 60.1%
+	1981: 59.2%
+	1982: 61.7%
+	1983: 63.5%
+	1984: 63.6%
+	1985: 64.5%
+	1986: 64.2%
+	1987: 65.1%
+	1988: 66.0%
+	1989: 68.6%
+	1990: 71.6%
+	1991: 69.8%
+	1992: 70.7%
+	1993: 71.5%
+	1994: 71.9%
+	1995: 71.4%
+	1996: 73.7%
+	1997: 74.1%
+	1998: 73.1%
+	1999: 72.3%
+

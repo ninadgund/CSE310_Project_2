@@ -1,0 +1,12 @@
+10
+find ratio 1960 1969
+find max total 10
+find max men 10
+find max women 10
+find ratio 1970 1979
+find max men 1
+find ratio 1980 1989
+find max women 1
+find ratio 1990 1999
+find ratio 1960 1999
+
