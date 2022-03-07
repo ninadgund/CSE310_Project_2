@@ -38,7 +38,6 @@ void findMax(string occFileYear, string worker, int n)
     {
         lWorkerType = Module::WorkerType::TOTAL;
     }
-    cout << endl;
 
     Module::maxheap lMaxHeap(lWorkerType);
     while (getline(occupationFile, line))
@@ -56,9 +55,7 @@ void findMax(string occFileYear, string worker, int n)
 
     lMaxHeap.buildMaxHeap();
 
-    cout << "find max " << worker << " " << n << '\n';
     lMaxHeap.popMaxElements(n);
-    cout << endl;
 }
 
 // 2. find ratio <yyyy>     <zzzz>
@@ -95,7 +92,6 @@ int main(int argc, char** argv)
         // Read N lines each containing a query
         for (int i = 0; i < q_n; i++)
         {
-            cout << "hyhy:" << q_n << endl;
             getline(cin, in_line);
             
             if (in_line.rfind("find max", 0) == 0)
@@ -118,7 +114,6 @@ int main(int argc, char** argv)
                     }
                     
                     findMax(occFileYear, worker, stoi(str_n));
-                    cout << "Here 4" << endl;
                 }
                 catch (...)
                 {
@@ -161,7 +156,6 @@ int main(int argc, char** argv)
                 cout << in_line << '\n';
                 // Implementation not needed for milestone
             }
-            cout << endl;
         }
     }
 

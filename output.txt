@@ -1,9 +1,18 @@
-hyhy:4
-find max female 2
-
 find max female 2
 	Secretaries and administrative assistants: 2330670
-507=253=504
 	Elementary and middle school teachers: 1651840
-507=253=504
-
+find max female 3
+	Secretaries and administrative assistants: 2330670
+	Elementary and middle school teachers: 1651840
+	Registered nurses: 1254900
+find max female 4
+	Secretaries and administrative assistants: 2330670
+	Elementary and middle school teachers: 1651840
+	Registered nurses: 1254900
+	Bookkeeping, accounting, and auditing clerks: 964160
+find max female 5
+	Secretaries and administrative assistants: 2330670
+	Elementary and middle school teachers: 1651840
+	Registered nurses: 1254900
+	Bookkeeping, accounting, and auditing clerks: 964160
+	First-line supervisors/managers of office and administrative support workers: 882160

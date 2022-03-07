@@ -1,5 +1,5 @@
 
-SRCDIR = ./src
+SRCDIR = .
 SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/util.cpp $(SRCDIR)/maxheap.cpp $(SRCDIR)/hashtable.cpp $(SRCDIR)/bst.cpp 
 
 all : earnings

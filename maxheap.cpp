@@ -16,7 +16,7 @@ Module::maxheap::~maxheap()
     {
         if (data[i] != nullptr)
         {
-            delete data[i];
+//            delete data[i];
             data[i] = nullptr;
         }
     }
@@ -86,7 +86,6 @@ void Module::maxheap::deleteRoot()
         return;
     }
     data[0] = data[currValues - 1];
-    cout << left((currValues + 1)/2) << "=" << ((currValues + 1)/2) << "=" << (currValues - 1) << endl;
 //    data[currValues - 1] = nullptr;
     maxHeapify(0);
 }
