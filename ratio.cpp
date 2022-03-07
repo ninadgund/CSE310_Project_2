@@ -1,6 +1,7 @@
 
 #include "ratio.h"
 
+// Constructor
 Module::ratio::ratio()
 {
     currValues = 0;
@@ -11,34 +12,38 @@ Module::ratio::ratio()
     
 }
 
+// Destructor
 Module::ratio::~ratio()
 {
     for (int i = 0; i < RATIO_NODES; i++)
     {
         if (data[i] != nullptr)
         {
-//            delete data[i];
             data[i] = nullptr;
         }
     }
 }
 
+// Resolve the index of Left leaf
 int Module::ratio::left(int index)
 {
     return ((index * 2) + 1);
 }
 
+// Resolve the index of Right leaf
 int Module::ratio::right(int index)
 {
     return ((index * 2) + 2);
 }
 
+// Add a new value at the end of the array
 void Module::ratio::addValue(earnings* newNode)
 {
     data[currValues] = newNode;
     currValues++;
 }
 
+// Standard heapify algorithm
 void Module::ratio::minHeapify(int index, int size)
 {
     int lIndex = left(index);
@@ -66,6 +71,7 @@ void Module::ratio::minHeapify(int index, int size)
     }
 }
 
+// Heapifying the array to make a min heap (for ascending order)
 void Module::ratio::buildMinHeap()
 {
     for (int i = ((currValues + 1)/2); i >= 1; i--)
@@ -74,6 +80,7 @@ void Module::ratio::buildMinHeap()
     }
 }
 
+// Heap sort the array
 void Module::ratio::heapSort()
 {
     buildMinHeap();
@@ -87,6 +94,7 @@ void Module::ratio::heapSort()
     }
 }
 
+// Print the ratio of the range of years as specified
 void Module::ratio::printRatios(int startYear, int endYear)
 {
     cout << "The female-to-male earnings ratio for " << startYear << "-" << endYear << ":\n";

@@ -12,13 +12,16 @@ using namespace std;
 //             total/m/f    1<=n<=50
 void findMax(string occFileYear, string worker, int n)
 {
+    // Reading the file as per input year
     string occFileName = "Occupation-Dist-All-" + occFileYear + ".csv";
     ifstream occupationFile(occFileName);
     if (!occupationFile.is_open())
     {
+        // Throw if file not found
         throw 1;
     }
 
+    // Ignoring first 5 lines of CSV
     string line;
     int lineNo = 0;
     for (int i = 0; (i < 5) && getline(occupationFile, line); i++)
@@ -40,6 +43,7 @@ void findMax(string occFileYear, string worker, int n)
         lWorkerType = Module::WorkerType::TOTAL;
     }
 
+    // Creating max heap of the data as per Worker type
     Module::maxheap lMaxHeap(lWorkerType, occFileYear);
     while (getline(occupationFile, line))
     {
@@ -49,21 +53,18 @@ void findMax(string occFileYear, string worker, int n)
             continue;
         }
 
+        // Reading each line of data and tokenizing it into SOC struct
         SOC * newSOC = Module::util::tokenizeSOC(line);
+        // Adding SOC struct in Array
         lMaxHeap.addValue(newSOC);
     }
     occupationFile.close();
 
+    // Building max-heap from array of SOCs
     lMaxHeap.buildMaxHeap();
 
+    // Popping the root node (max node) n times as the query requested
     lMaxHeap.popMaxElements(n);
-}
-
-// 2. find ratio <yyyy>     <zzzz>
-//               1960<=yyyy<=zzzz<=2019
-void findRatio(string worker, int n)
-{
-    // TODO - Can make array (heap) once then answer using that
 }
 
 // main
@@ -75,8 +76,10 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+    // Occupation data year for filename
     string occFileYear(argv[1]);
 
+    // Earning data filename
     string earnFileName = "Earnings-1960-2019.csv";
     ifstream earnFile(earnFileName);
     if (!earnFile.is_open())
@@ -84,14 +87,17 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+    // Reading earning data file and skipping first 8 lines
     string line;
     int lineNo = 0;
     for (int i = 0; (i < 8) && getline(earnFile, line); i++)
     {
         lineNo++;
     }
-    Module::ratio lRatio;
+    // Creating an array for ratio queries
+    Module::ratio LPlusRatio;
 
+    // Reading earning data line by line
     while (getline(earnFile, line))
     {
         lineNo++;
@@ -100,11 +106,14 @@ int main(int argc, char** argv)
             continue;
         }
 
+        // Formatting CSV data to create earning struct
         earnings * newEarnings = Module::util::tokenizeEarnings(line);
-        lRatio.addValue(newEarnings);
+        // Adding data to array
+        LPlusRatio.addValue(newEarnings);
     }
     earnFile.close();
-    lRatio.heapSort();
+    // Sorting the array using heapsort by year values
+    LPlusRatio.heapSort();
 
     // Read number of queries 'N'
     string in_line;
@@ -117,12 +126,14 @@ int main(int argc, char** argv)
         {
             getline(cin, in_line);
             
+            // Check the query type
             if (in_line.rfind("find max", 0) == 0)
             {
                 cout << "Query: " << in_line << "\n\n";
                 in_line = in_line.substr(9);
                 string token;
                 istringstream iss(in_line);
+                // Read query input
                 try
                 {
                     string worker;
@@ -149,6 +160,7 @@ int main(int argc, char** argv)
                 in_line = in_line.substr(11);
                 string token;
                 istringstream iss(in_line);
+                // Read query input
                 try
                 {
                     string startYear;
@@ -161,10 +173,11 @@ int main(int argc, char** argv)
                     {
                         throw 1;
                     }
-                    lRatio.printRatios(stoi(startYear), stoi(endYear));
+                    LPlusRatio.printRatios(stoi(startYear), stoi(endYear));
                 }
                 catch (...)
                 {
+                    //  For failed query, exception (integer for simplicity) is thrown
                     cout << "Query failed" << '\n';
                 }
             }

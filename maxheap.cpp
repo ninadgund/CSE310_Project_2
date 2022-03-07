@@ -1,6 +1,7 @@
 
 #include "maxheap.h"
 
+// Constructor
 Module::maxheap::maxheap(Module::WorkerType pWorkerType, string pYear) : mWorkerType{pWorkerType}
 {
     mYear = pYear;
@@ -11,34 +12,38 @@ Module::maxheap::maxheap(Module::WorkerType pWorkerType, string pYear) : mWorker
     }
 }
 
+// Destructor
 Module::maxheap::~maxheap()
 {
     for (int i = 0; i < HEAP_NODES; i++)
     {
         if (data[i] != nullptr)
         {
-//            delete data[i];
             data[i] = nullptr;
         }
     }
 }
 
+// Resolve the index of Left leaf
 int Module::maxheap::left(int index)
 {
     return ((index * 2) + 1);
 }
 
+// Resolve the index of Right leaf
 int Module::maxheap::right(int index)
 {
     return ((index * 2) + 2);
 }
 
+// Add a new value at the end of the array
 void Module::maxheap::addValue(SOC* newNode)
 {
     data[currValues] = newNode;
     currValues++;
 }
 
+// Standard heapify algorithm
 void Module::maxheap::maxHeapify(int index)
 {
     int lIndex = left(index);
@@ -68,6 +73,7 @@ void Module::maxheap::maxHeapify(int index)
 
 void Module::maxheap::buildMaxHeap()
 {
+    // Building max heap
     for (int i = ((currValues + 1)/2); i >= 1; i--)
     {
         maxHeapify(i - 1);
@@ -76,6 +82,7 @@ void Module::maxheap::buildMaxHeap()
 
 void Module::maxheap::deleteRoot()
 {
+    // Delete root node, and heapify the tree
     if (currValues == 0)
     {
         return;        
@@ -87,7 +94,6 @@ void Module::maxheap::deleteRoot()
         return;
     }
     data[0] = data[currValues - 1];
-//    data[currValues - 1] = nullptr;
     maxHeapify(0);
 }
 
@@ -109,6 +115,7 @@ void Module::maxheap::popMaxElements(int n)
     cout << "Top " << n << " occupations in " << mYear << " for " << lWorkerType << " workers:\n";
     for (int i = 0; (i < n) && (data[0] != nullptr); i++)
     {
+        // Print the root (max) element, then delete it, and heapify the tree
         util::printSOC(*data[0], mWorkerType);
         deleteRoot();
     }

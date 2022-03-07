@@ -6,9 +6,11 @@ Module::util::~util()
 
 }
 
+// Custom compare logic for SOC structs
 int Module::util::compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorkerType)
 {
     int SOC1_value, SOC2_value;
+    // Choosing the Worker type as key for primary sorting
     switch (pWorkerType)
     {
     case WorkerType::MALE:
@@ -31,6 +33,7 @@ int Module::util::compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorke
         break;
     }
 
+    // First sort by number of workers
     if (SOC1_value > SOC2_value)
     {
         return 1;
@@ -41,11 +44,13 @@ int Module::util::compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorke
     }
     else
     {
+        // If same number of workers, then sort lexicographically
         return strcmp(SOC1.occupation, SOC2.occupation);
     }
     return 0;
 }
 
+// Function to print out data from SOC struct as intended
 void Module::util::printSOC(const SOC& pSOC, WorkerType pWorkerType)
 {
     cout << '\t' << pSOC.occupation << ": ";
@@ -69,6 +74,7 @@ void Module::util::printSOC(const SOC& pSOC, WorkerType pWorkerType)
     cout << '\n';
 }
 
+// CSV data tokenizer,. returns linked list of String values
 Module::StrArray* Module::util::tokenizeCSV(string& pData)
 {
     istringstream iss(pData);
@@ -76,6 +82,7 @@ Module::StrArray* Module::util::tokenizeCSV(string& pData)
     Module::StrArray* lStrArray = nullptr;
     Module::StrArray* lCurrStrArray = nullptr;
     
+    // Tokenize by commas
     for (std::string line; std::getline(iss, line, ','); )
     {
         if (lStrArray == nullptr)
@@ -94,6 +101,7 @@ Module::StrArray* Module::util::tokenizeCSV(string& pData)
         }
     }
 
+    // For values with quotes, combine them again
     for (Module::StrArray* itr = lStrArray; itr != nullptr; itr = itr->next)
     {
         if (itr->str[0] == '\"')
@@ -110,6 +118,8 @@ Module::StrArray* Module::util::tokenizeCSV(string& pData)
             itr->str.pop_back();
         }
     }
+
+    // Value count
     int i = 0;
     for (Module::StrArray* itr = lStrArray; itr != nullptr; itr = itr->next)
     {
@@ -119,6 +129,7 @@ Module::StrArray* Module::util::tokenizeCSV(string& pData)
     return lStrArray;
 }
 
+// Put the tokenized data into SOC struct
 SOC* Module::util::tokenizeSOC(string& pData)
 {
     Module::StrArray* lStrArray = tokenizeCSV(pData);
@@ -154,6 +165,7 @@ SOC* Module::util::tokenizeSOC(string& pData)
     return lSOC;
 }
 
+// Put the tokenized data into earnings struct
 earnings* Module::util::tokenizeEarnings(string& pData)
 {
     Module::StrArray* lStrArray = tokenizeCSV(pData);
@@ -277,6 +289,7 @@ earnings* Module::util::tokenizeEarnings(string& pData)
     return lEarn;
 }
 
+// Add commas after each 3 digits while printing for readability
 string Module::util::printThousands(int pInt)
 {
     string str = "";
@@ -294,8 +307,10 @@ string Module::util::printThousands(int pInt)
     return str;
 }
 
+// Custom compare logic for earnings structs
 int Module::util::compareEarnings(const earnings& earnings1, const earnings& earnings2)
 {
+    // Compared by year value
     if (earnings1.year > earnings2.year)
     {
         return 1;
@@ -307,6 +322,7 @@ int Module::util::compareEarnings(const earnings& earnings1, const earnings& ear
     return 0;
 }
 
+// Calculate and print the ratio value of a earning struct
 void Module::util::printRatio(const earnings& pEarnings)
 {
     if (pEarnings.female_earnings < 0 || pEarnings.male_earnings < 0)
