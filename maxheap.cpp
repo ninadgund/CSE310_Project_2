@@ -1,8 +1,9 @@
 
 #include "maxheap.h"
 
-Module::maxheap::maxheap(Module::WorkerType pWorkerType) : mWorkerType{pWorkerType}
+Module::maxheap::maxheap(Module::WorkerType pWorkerType, string pYear) : mWorkerType{pWorkerType}
 {
+    mYear = pYear;
     currValues = 0;
     for (int i = 0; i < HEAP_NODES; i++)
     {
@@ -92,6 +93,20 @@ void Module::maxheap::deleteRoot()
 
 void Module::maxheap::popMaxElements(int n)
 {
+    string lWorkerType;
+    if (mWorkerType == WorkerType::FEMALE)
+    {
+        lWorkerType = "female";
+    }
+    else if (mWorkerType == WorkerType::MALE)
+    {
+        lWorkerType = "male";
+    }
+    else
+    {
+        lWorkerType = "total";
+    }
+    cout << "Top " << n << " occupations in " << mYear << " for " << lWorkerType << " workers:\n";
     for (int i = 0; (i < n) && (data[0] != nullptr); i++)
     {
         util::printSOC(*data[0], mWorkerType);

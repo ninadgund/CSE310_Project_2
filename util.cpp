@@ -52,15 +52,15 @@ void Module::util::printSOC(const SOC& pSOC, WorkerType pWorkerType)
     switch (pWorkerType)
     {
     case WorkerType::MALE:
-        cout << pSOC.male;
+        cout << printThousands(pSOC.male);
         break;
     
     case WorkerType::FEMALE:
-        cout << pSOC.female;
+        cout << printThousands(pSOC.female);
         break;
     
     case WorkerType::TOTAL:
-        cout << pSOC.total;
+        cout << printThousands(pSOC.total);
         break;
     
     default:
@@ -157,34 +157,116 @@ SOC* Module::util::tokenizeSOC(string& pData)
 earnings* Module::util::tokenizeEarnings(string& pData)
 {
     Module::StrArray* lStrArray = tokenizeCSV(pData);
-    earnings* lSOC = new earnings;
+    earnings* lEarn = new earnings;
     Module::StrArray* lCurrArray = lStrArray;
 
-    lSOC->year = stoi(lCurrArray->str);
+    string temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->year = -1;
+    }
+    else
+    {
+        lEarn->year = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->male_total = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->male_total = -1;
+    }
+    else
+    {
+        lEarn->male_total = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->male_with_earnings = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->male_with_earnings = -1;
+    }
+    else
+    {
+        lEarn->male_with_earnings = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->male_earnings = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->male_earnings = -1;
+    }
+    else
+    {
+        lEarn->male_earnings = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->male_earnings_moe = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->male_earnings_moe = -1;
+    }
+    else
+    {
+        lEarn->male_earnings_moe = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->female_total = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->female_total = -1;
+    }
+    else
+    {
+        lEarn->female_total = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->female_with_earnings = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->female_with_earnings = -1;
+    }
+    else
+    {
+        lEarn->female_with_earnings = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->female_earnings = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->female_earnings = -1;
+    }
+    else
+    {
+        lEarn->female_earnings = stoi(temp);
+    }
     lCurrArray = lCurrArray->next;
 
-    lSOC->female_earnings_moe = stoi(lCurrArray->str);
+    temp = lCurrArray->str;
+    temp.erase(remove(temp.begin(), temp.end(), ','), temp.end());
+    if (temp == "N")
+    {
+        lEarn->female_earnings_moe = -1;
+    }
+    else
+    {
+        lEarn->female_earnings_moe = stoi(temp);
+    }
+    lCurrArray = lCurrArray->next;
 
     while (lStrArray != nullptr)
     {
@@ -192,5 +274,45 @@ earnings* Module::util::tokenizeEarnings(string& pData)
         lStrArray = lStrArray->next;
         delete lCurrArray;
     }
-    return lSOC;
+    return lEarn;
+}
+
+string Module::util::printThousands(int pInt)
+{
+    string str = "";
+    while (pInt > 999)
+    {
+        string num = to_string(pInt % 1000);
+        while (num.length() < 3)
+        {
+            num = "0" + num;
+        }
+        str = "," + num + str;
+        pInt /= 1000;
+    }
+    str = to_string(pInt) + str;
+    return str;
+}
+
+int Module::util::compareEarnings(const earnings& earnings1, const earnings& earnings2)
+{
+    if (earnings1.year > earnings2.year)
+    {
+        return 1;
+    }
+    else if (earnings1.year < earnings2.year)
+    {
+        return -1;
+    }
+    return 0;
+}
+
+void Module::util::printRatio(const earnings& pEarnings)
+{
+    cout << '\t' << pEarnings.year << ": ";
+
+    float lRatio = ((float)pEarnings.female_earnings / (float)pEarnings.male_earnings) * 100.0;
+    cout << fixed << setprecision(1) << (lRatio - 0.05);
+    // TODO - print ratio 
+    cout << "%\n";
 }

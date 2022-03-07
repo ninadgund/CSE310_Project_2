@@ -1,6 +1,7 @@
 
 #include "util.h"
 #include "maxheap.h"
+#include "ratio.h"
 #include "hashtable.h"
 #include "bst.h"
 
@@ -39,7 +40,7 @@ void findMax(string occFileYear, string worker, int n)
         lWorkerType = Module::WorkerType::TOTAL;
     }
 
-    Module::maxheap lMaxHeap(lWorkerType);
+    Module::maxheap lMaxHeap(lWorkerType, occFileYear);
     while (getline(occupationFile, line))
     {
         lineNo++;
@@ -76,12 +77,36 @@ int main(int argc, char** argv)
 
     string occFileYear(argv[1]);
 
+    /*
     string earnFileName = "Earnings-1960-2019.csv";
     ifstream earnFile(earnFileName);
     if (!earnFile.is_open())
     {
         return EXIT_FAILURE;
     }
+
+    string line;
+    int lineNo = 0;
+    for (int i = 0; (i < 8) && getline(earnFile, line); i++)
+    {
+        lineNo++;
+    }
+    Module::ratio lRatio;
+
+    while (getline(earnFile, line))
+    {
+        lineNo++;
+        if(line.length() <= 1)
+        {
+            continue;
+        }
+
+        earnings * newEarnings = Module::util::tokenizeEarnings(line);
+        lRatio.addValue(newEarnings);
+    }
+    earnFile.close();
+    lRatio.heapSort();
+    */
 
     // Read number of queries 'N'
     string in_line;
@@ -96,7 +121,7 @@ int main(int argc, char** argv)
             
             if (in_line.rfind("find max", 0) == 0)
             {
-                cout << in_line << '\n';
+                cout << "Query: " << in_line << "\n\n";
                 in_line = in_line.substr(9);
                 string token;
                 istringstream iss(in_line);
@@ -122,24 +147,23 @@ int main(int argc, char** argv)
             }
             else if (in_line.rfind("find ratio", 0) == 0)
             {
-                cout << in_line << '\n';
+                cout << "Query: " << in_line << "\n\n";
                 in_line = in_line.substr(11);
                 string token;
                 istringstream iss(in_line);
                 try
                 {
-                    string worker;
-                    string str_n;
-                    if(!std::getline(iss, worker, ' '))
+                    string startYear;
+                    string endYear;
+                    if(!std::getline(iss, startYear, ' '))
                     {
                         throw 1;
                     }
-                    if(!std::getline(iss, str_n, '\n'))
+                    if(!std::getline(iss, endYear, '\n'))
                     {
                         throw 1;
                     }
-                    
-                    findRatio(worker, stoi(str_n));
+//                    lRatio.printRatios(stoi(startYear), stoi(endYear));
                 }
                 catch (...)
                 {

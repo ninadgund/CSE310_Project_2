@@ -10,6 +10,7 @@ namespace Module
     class maxheap
     {
     private:
+        string mYear;
         const WorkerType mWorkerType;
         SOC* data[HEAP_NODES];
         int currValues;
@@ -22,7 +23,7 @@ namespace Module
         void deleteRoot();
 
     public:
-        maxheap(WorkerType workerType);
+        maxheap(WorkerType workerType, string year);
         ~maxheap();
 
         void addValue(SOC* newNode);
