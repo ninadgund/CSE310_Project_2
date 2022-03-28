@@ -12,6 +12,10 @@ Module::hashtable::hashtable(int m)
 
     hashArr = new hash_table_entry*[firstPrime];
     sizeM = firstPrime;
+    for (int i = 0; i < sizeM; i++)
+    {
+        hashArr[i] = nullptr;
+    }
 }
 
 Module::hashtable::~hashtable()
@@ -48,7 +52,7 @@ void Module::hashtable::insertEntry(bst* node)
         string strCode = lCurrArr->str;
         strCode.erase(std::remove(strCode.begin(), strCode.end(), '-'), strCode.end());
         int liSOCCOde = stoi(strCode);
-        insertEntry(node, liSOCCOde, strCode);
+        insertEntry(node, liSOCCOde, lCurrArr->str);
         lCurrArr = lCurrArr->next;
     }
 
@@ -96,8 +100,9 @@ void Module::hashtable::insertEntry(bst* node, int piSOCCode, string pstrSOCCOde
 
 void Module::hashtable::printEntry(std::string pstrSOCCOde)
 {
-    pstrSOCCOde.erase(std::remove(pstrSOCCOde.begin(), pstrSOCCOde.end(), '-'), pstrSOCCOde.end());
-    int liSOCCOde = stoi(pstrSOCCOde);
+    string lstrSOCCOde = pstrSOCCOde;
+    lstrSOCCOde.erase(std::remove(lstrSOCCOde.begin(), lstrSOCCOde.end(), '-'), lstrSOCCOde.end());
+    int liSOCCOde = stoi(lstrSOCCOde);
 
     bst* lBST = findEntry(liSOCCOde, pstrSOCCOde);
     if (lBST == nullptr)

@@ -67,7 +67,7 @@ void findMax(string occFileYear, string worker, int n)
     lMaxHeap.popMaxElements(n);
 }
 
-void readOccupation(string occFileYear, Module::bstmgr* pBST, Module::hashtable* pHashT)
+void readOccupation(string occFileYear, Module::bstmgr** pBST, Module::hashtable** pHashT)
 {
     // Reading the file as per input year
     string occFileName = "Occupation-Dist-All-" + occFileYear + ".csv";
@@ -87,7 +87,7 @@ void readOccupation(string occFileYear, Module::bstmgr* pBST, Module::hashtable*
     }
 
     // Creating data structures of the data from occupation file
-    pBST = new Module::bstmgr();
+    *pBST = new Module::bstmgr();
     while (getline(occupationFile, line))
     {
         lineNo++;
@@ -100,14 +100,14 @@ void readOccupation(string occFileYear, Module::bstmgr* pBST, Module::hashtable*
         SOC * newSOC = Module::util::tokenizeSOC(line);
         // Adding SOC struct in Array
         // TODO - Add stuff here
-        pBST->addValue(newSOC);
+        (*pBST)->addValue(newSOC);
         delete newSOC;
         newSOC = nullptr;
     }
     occupationFile.close();
 
-    pHashT = new Module::hashtable(pBST->getTotalValues());
-    pHashT->createTable(pBST->getRoot());
+    *pHashT = new Module::hashtable((*pBST)->getTotalValues());
+    (*pHashT)->createTable((*pBST)->getRoot());
 }
 
 // main
@@ -161,7 +161,7 @@ int main(int argc, char** argv)
     //Reading Occupation file to create BST and Hashtable
     Module::bstmgr* lBST;
     Module::hashtable* lHashT;
-//    readOccupation(occFileYear, lBST, lHashT);
+    readOccupation(occFileYear, &lBST, &lHashT);
 
     // Read number of queries 'N'
     string in_line;
@@ -232,7 +232,7 @@ int main(int argc, char** argv)
             else if (in_line.rfind("find occupation", 0) == 0)
             {
                 cout << "Query: " << in_line << "\n\n";
-                in_line = in_line.substr(17);
+                in_line = in_line.substr(16);
                 try
                 {
                     lHashT->printEntry(in_line);
