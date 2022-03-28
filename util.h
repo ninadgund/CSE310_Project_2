@@ -11,9 +11,11 @@
 #include <ctype.h>
 #include <algorithm>
 #include <iomanip>
+#include <cmath>
 
 using namespace std;
 
+//Util class for utility functions
 namespace Module
 {
     // Enum classes for queries
@@ -23,8 +25,10 @@ namespace Module
         TOTAL,
         MALE,
         FEMALE,
+        ALL,
     };
 
+    // Linked list of string data type
     struct StrArray
     {
         string str;
@@ -39,7 +43,10 @@ namespace Module
         util() = delete;
         ~util();
 
+        static void initSOC(SOC& dest, SOC* src);
+        static StrArray* splitSOCCodes(SOC& pSOC);
         static int compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorkerType);
+        static int compareSOCOcc(const SOC& SOC1, const SOC& SOC2);
         static void printSOC(const SOC& pSOC, WorkerType pWorkerType);
         static StrArray* tokenizeCSV(string& pData);
         static SOC* tokenizeSOC(string& pData);
@@ -49,5 +56,7 @@ namespace Module
         static int compareEarnings(const earnings& earnings1, const earnings& earnings2);
         static void printRatio(const earnings& pEarnings);
         
+        static bool TestForPrime( int val );
+
     };
 }

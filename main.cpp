@@ -3,7 +3,7 @@
 #include "maxheap.h"
 #include "ratio.h"
 #include "hashtable.h"
-#include "bst.h"
+#include "bstmgr.h"
 
 using namespace std;
 
@@ -67,6 +67,49 @@ void findMax(string occFileYear, string worker, int n)
     lMaxHeap.popMaxElements(n);
 }
 
+void readOccupation(string occFileYear, Module::bstmgr* pBST, Module::hashtable* pHashT)
+{
+    // Reading the file as per input year
+    string occFileName = "Occupation-Dist-All-" + occFileYear + ".csv";
+    ifstream occupationFile(occFileName);
+    if (!occupationFile.is_open())
+    {
+        // Throw if file not found
+        throw 1;
+    }
+
+    // Ignoring first 5 lines of CSV
+    string line;
+    int lineNo = 0;
+    for (int i = 0; (i < 5) && getline(occupationFile, line); i++)
+    {
+        lineNo++;
+    }
+
+    // Creating data structures of the data from occupation file
+    pBST = new Module::bstmgr();
+    while (getline(occupationFile, line))
+    {
+        lineNo++;
+        if(line.length() <= 1)
+        {
+            continue;
+        }
+
+        // Reading each line of data and tokenizing it into SOC struct
+        SOC * newSOC = Module::util::tokenizeSOC(line);
+        // Adding SOC struct in Array
+        // TODO - Add stuff here
+        pBST->addValue(newSOC);
+        delete newSOC;
+        newSOC = nullptr;
+    }
+    occupationFile.close();
+
+    pHashT = new Module::hashtable(pBST->getTotalValues());
+    pHashT->createTable(pBST->getRoot());
+}
+
 // main
 int main(int argc, char** argv)
 {
@@ -114,6 +157,11 @@ int main(int argc, char** argv)
     earnFile.close();
     // Sorting the array using heapsort by year values
     LPlusRatio.heapSort();
+
+    //Reading Occupation file to create BST and Hashtable
+    Module::bstmgr* lBST;
+    Module::hashtable* lHashT;
+//    readOccupation(occFileYear, lBST, lHashT);
 
     // Read number of queries 'N'
     string in_line;
@@ -183,14 +231,25 @@ int main(int argc, char** argv)
             }
             else if (in_line.rfind("find occupation", 0) == 0)
             {
-                cout << in_line << '\n';
-                // Implementation not needed for milestone
+                cout << "Query: " << in_line << "\n\n";
+                in_line = in_line.substr(17);
+                try
+                {
+                    lHashT->printEntry(in_line);
+                }
+                catch (...)
+                {
+                    //  For failed query, exception (integer for simplicity) is thrown
+                    cout << "Query failed" << '\n';
+                }
             }
             else if (in_line.rfind("range occupation", 0) == 0)
             {
                 cout << in_line << '\n';
                 // Implementation not needed for milestone
             }
+            cout << endl;
+
         }
     }
 

@@ -6,6 +6,52 @@ Module::util::~util()
 
 }
 
+// Copy function for SOC
+void Module::util::initSOC(SOC& dest, SOC* src)
+{
+    strncpy(dest.occupation, src->occupation, OCC_LEN);
+    strncpy(dest.SOC_code, src->SOC_code, CODE_LEN);
+    dest.total = src->total;
+    dest.female = src->female;
+    dest.male = src->male;
+}
+
+// Separate SOC codes
+Module::StrArray* Module::util::splitSOCCodes(SOC& pSOC)
+{
+    // Create String for easy tokenization
+    string strCodes(pSOC.SOC_code);
+    strCodes.erase(std::remove(strCodes.begin(), strCodes.end(), '&'), strCodes.end());
+    strCodes.erase(std::remove(strCodes.begin(), strCodes.end(), ' '), strCodes.end());
+//    strCodes.erase(std::remove_if(strCodes.begin(), strCodes.end(), std::isspace), strCodes.end());
+
+    istringstream iss(strCodes);
+    string token;
+    StrArray* lStrArray = nullptr;
+    StrArray* lCurrStrArray = nullptr;
+    
+    // Tokenize by commas
+    for (std::string line; std::getline(iss, line, ','); )
+    {
+        if (lStrArray == nullptr)
+        {
+            lCurrStrArray = new StrArray;
+            lCurrStrArray->str = line;
+            lCurrStrArray->next = nullptr;
+            lStrArray = lCurrStrArray;
+        }
+        else
+        {
+            lCurrStrArray->next = new StrArray;
+            lCurrStrArray = lCurrStrArray->next;
+            lCurrStrArray->str = line;
+            lCurrStrArray->next = nullptr;
+        }
+    }
+
+    return lStrArray;
+}
+
 // Custom compare logic for SOC structs
 int Module::util::compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorkerType)
 {
@@ -44,10 +90,17 @@ int Module::util::compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorke
     }
     else
     {
-        // If same number of workers, then sort lexicographically
-        return strcmp(SOC1.occupation, SOC2.occupation);
+        // If same number of workers, then comapre occupation
+        return compareSOCOcc(SOC1, SOC2);
     }
     return 0;
+}
+
+// Custom compare logic for SOC structs
+int Module::util::compareSOCOcc(const SOC& SOC1, const SOC& SOC2)
+{
+    // Comparing lexicographically
+    return strcmp(SOC1.occupation, SOC2.occupation);
 }
 
 // Function to print out data from SOC struct as intended
@@ -66,6 +119,12 @@ void Module::util::printSOC(const SOC& pSOC, WorkerType pWorkerType)
     
     case WorkerType::TOTAL:
         cout << printThousands(pSOC.total);
+        break;
+    
+    case WorkerType::ALL:
+        cout << "YRFT: " << printThousands(pSOC.total) << ", ";
+        cout << "Female: " << printThousands(pSOC.total) << ", ";
+        cout << "Male: " << printThousands(pSOC.total);
         break;
     
     default:
@@ -334,4 +393,16 @@ void Module::util::printRatio(const earnings& pEarnings)
     float lRatio = ((float)pEarnings.female_earnings / (float)pEarnings.male_earnings) * 100.0;
     cout << fixed << setprecision(1) << (lRatio - 0.05);
     cout << "%\n";
+}
+
+// Prime number check from prime.cc
+bool Module::util::TestForPrime( int val )
+{
+    int limit, factor = 2;
+
+    limit = (long)( sqrtf( (float) val ) + 0.5f );
+    while( (factor <= limit) && (val % factor) )
+        factor++;
+
+    return( factor > limit );
 }
