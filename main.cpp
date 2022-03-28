@@ -53,10 +53,17 @@ void findMax(string occFileYear, string worker, int n)
             continue;
         }
 
-        // Reading each line of data and tokenizing it into SOC struct
-        SOC * newSOC = Module::util::tokenizeSOC(line);
-        // Adding SOC struct in Array
-        lMaxHeap.addValue(newSOC);
+        try
+        {
+            // Reading each line of data and tokenizing it into SOC struct
+            SOC * newSOC = Module::util::tokenizeSOC(line);
+            // Adding SOC struct in Array
+            lMaxHeap.addValue(newSOC);
+        }
+        catch(...)
+        {
+            continue;
+        }
     }
     occupationFile.close();
 
@@ -96,13 +103,19 @@ void readOccupation(string occFileYear, Module::bstmgr** pBST, Module::hashtable
             continue;
         }
 
-        // Reading each line of data and tokenizing it into SOC struct
-        SOC * newSOC = Module::util::tokenizeSOC(line);
-        // Adding SOC struct in Array
-        // TODO - Add stuff here
-        (*pBST)->addValue(newSOC);
-        delete newSOC;
-        newSOC = nullptr;
+        try
+        {
+            // Reading each line of data and tokenizing it into SOC struct
+            SOC * newSOC = Module::util::tokenizeSOC(line);
+            // Adding SOC struct in Array
+            (*pBST)->addValue(newSOC);
+            //delete newSOC;
+            newSOC = nullptr;
+        }
+        catch(...)
+        {
+            continue;
+        }
     }
     occupationFile.close();
 
@@ -245,10 +258,42 @@ int main(int argc, char** argv)
             }
             else if (in_line.rfind("range occupation", 0) == 0)
             {
-                cout << in_line << '\n';
-                // Implementation not needed for milestone
+                cout << "Query: " << in_line << "\n\n";
+                in_line = in_line.substr(17);
+
+                string token;
+                istringstream iss(in_line);
+                // Read query input
+                try
+                {
+                    string low;
+                    string high;
+                    if(!std::getline(iss, low, ' '))
+                    {
+                        throw 1;
+                    }
+                    if(!std::getline(iss, high, '\n'))
+                    {
+                        throw 1;
+                    }
+                    low.erase(std::remove(low.begin(), low.end(), '\"'), low.end());
+                    high.erase(std::remove(high.begin(), high.end(), '\"'), high.end());
+//                    if (high < low)
+//                    {
+//                        lBST->printRange(high, low);
+//                    }
+//                    else
+//                    {
+                        lBST->printRange(low, high);
+//                    }
+                }
+                catch (...)
+                {
+                    //  For failed query, exception (integer for simplicity) is thrown
+                    cout << "Query failed" << '\n';
+                }
             }
-            cout << endl;
+//            cout << endl;
 
         }
     }

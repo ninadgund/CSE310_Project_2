@@ -18,6 +18,7 @@ namespace Module
 
 //        void minHeapify(int index, int size);
 //        void buildMinHeap();
+        static bool printRange(bst* node, std::string& low, std::string& high, bool found);
 
     public:
         bstmgr();
@@ -26,8 +27,7 @@ namespace Module
         void addValue(SOC* newNode);
         int getTotalValues();
         bst* getRoot();
-//        void heapSort();
-//        void printRatios(int startYear, int endYear);
+        void printRange(std::string& low, std::string& high);
 
     };
 }

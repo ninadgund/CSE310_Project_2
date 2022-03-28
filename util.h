@@ -47,6 +47,7 @@ namespace Module
         static StrArray* splitSOCCodes(SOC& pSOC);
         static int compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorkerType);
         static int compareSOCOcc(const SOC& SOC1, const SOC& SOC2);
+        static int compareSOCOcc(const SOC& SOC1, const std::string& str);
         static void printSOC(const SOC& pSOC, WorkerType pWorkerType);
         static StrArray* tokenizeCSV(string& pData);
         static SOC* tokenizeSOC(string& pData);

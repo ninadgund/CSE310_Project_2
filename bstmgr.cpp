@@ -44,11 +44,11 @@ bst* Module::bstmgr::addValueToNode(bst* node, SOC* newNode)
         return node;
     }
     int cmp = util::compareSOCOcc(node->soc, *newNode);
-    if (cmp < 0)
+    if (cmp > 0)
     {
         node->left = addValueToNode(node->left, newNode);
     }
-    else if (cmp > 0)
+    else if (cmp < 0)
     {
         node->right = addValueToNode(node->right, newNode);
     }
@@ -63,4 +63,42 @@ int Module::bstmgr::getTotalValues()
 bst* Module::bstmgr::getRoot()
 {
     return root;
+}
+
+void Module::bstmgr::printRange(std::string& low, std::string& high)
+{
+    cout << "The occupations in the range \"" + low + "\" to \"" + high + "\":\n";
+
+    if(!printRange(root, low, high, false))
+    {
+        cout << "\tNo occupations found in the given range\n";
+    }
+}
+
+bool Module::bstmgr::printRange(bst* node, std::string& low, std::string& high, bool found)
+{
+    if (node == nullptr)
+    {
+        return found;
+    }
+
+    if (util::compareSOCOcc(node->soc, low) > 0)
+    {
+        found = printRange(node->left, low, high, found);
+    }
+    if ((util::compareSOCOcc(node->soc, low) >= 0) &&
+    (util::compareSOCOcc(node->soc, high) <= 0))
+    {
+        if (!found)
+        {
+            found = true;
+//            cout << "The occupations in the range " + low + " to " + high + ":\n";
+        }
+        util::printSOC(node->soc, WorkerType::ALL);
+    }
+    if (util::compareSOCOcc(node->soc, high) < 0)
+    {
+        found = printRange(node->right, low, high, found);
+    }
+    return found;
 }

@@ -21,9 +21,8 @@ Module::StrArray* Module::util::splitSOCCodes(SOC& pSOC)
 {
     // Create String for easy tokenization
     string strCodes(pSOC.SOC_code);
-    strCodes.erase(std::remove(strCodes.begin(), strCodes.end(), '&'), strCodes.end());
+    std::replace( strCodes.begin(), strCodes.end(), '&', ',');
     strCodes.erase(std::remove(strCodes.begin(), strCodes.end(), ' '), strCodes.end());
-//    strCodes.erase(std::remove_if(strCodes.begin(), strCodes.end(), std::isspace), strCodes.end());
 
     istringstream iss(strCodes);
     string token;
@@ -33,6 +32,10 @@ Module::StrArray* Module::util::splitSOCCodes(SOC& pSOC)
     // Tokenize by commas
     for (std::string line; std::getline(iss, line, ','); )
     {
+        if (line.empty())
+        {
+            continue;
+        }
         if (lStrArray == nullptr)
         {
             lCurrStrArray = new StrArray;
@@ -96,11 +99,18 @@ int Module::util::compareSOC(const SOC& SOC1, const SOC& SOC2, WorkerType pWorke
     return 0;
 }
 
-// Custom compare logic for SOC structs
+// Compare SOC based only on Occupation (lexicographically)
 int Module::util::compareSOCOcc(const SOC& SOC1, const SOC& SOC2)
 {
     // Comparing lexicographically
     return strcmp(SOC1.occupation, SOC2.occupation);
+}
+
+// Compare SOC Occupation (lexicographically) with string value
+int Module::util::compareSOCOcc(const SOC& SOC1, const std::string& str)
+{
+    // Comparing lexicographically
+    return strcmp(SOC1.occupation, str.c_str());
 }
 
 // Function to print out data from SOC struct as intended
@@ -123,8 +133,8 @@ void Module::util::printSOC(const SOC& pSOC, WorkerType pWorkerType)
     
     case WorkerType::ALL:
         cout << "YRFT: " << printThousands(pSOC.total) << ", ";
-        cout << "Female: " << printThousands(pSOC.total) << ", ";
-        cout << "Male: " << printThousands(pSOC.total);
+        cout << "Female: " << printThousands(pSOC.female) << ", ";
+        cout << "Male: " << printThousands(pSOC.male);
         break;
     
     default:
